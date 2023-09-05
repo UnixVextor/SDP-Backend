@@ -15,7 +15,7 @@ git clone https://github.com/UnixVextor/SDP-Backend.git
 cd SDP-Backend
 ```
 
-#### 2. Install [docker desktop](https://www.docker.com/products/docker-desktop/) and run `docker`**
+#### 2. Install [docker desktop](https://www.docker.com/products/docker-desktop/) and run `docker`
 ```bash
 docker-compose up
 ```
