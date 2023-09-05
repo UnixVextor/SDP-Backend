@@ -25,6 +25,10 @@ docker-compose up
 docker-compose up -d
 ```
 ##### Open `pgAdmin4` on port `5050` or  http://localhost:5050/
+```bash
+PGADMIN_DEFAULT_EMAIL: root@root.com
+PGADMIN_DEFAULT_PASSWORD: root
+```
 
 #### Database Config
 ```bash
