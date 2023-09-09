@@ -10,8 +10,137 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  name String
-  lastname String
+model User {
+  id              String            @id @default(uuid())
+  firstname       String
+  lastname        String
+  username        String
+  email           String
+  hashPassword    String
+  image           Bytes
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  isLogin         Boolean           @default(false)
+  attractinReview AttractionReview?
+  productReview   ProductReview?
+  basket          Basket[]
+}
+
+model AttractionCatagory {
+  id          String       @id @default(uuid())
+  type        String
+  attractions Attraction[]
+}
+
+model Attraction {
+  id                   String              @id @default(uuid())
+  attractionCatagory   AttractionCatagory  @relation(fields: [attractionCatagoryId], references: [id])
+  attractionCatagoryId String
+  name                 String
+  detail               String
+  address              String
+  pictures             PicutreAttraction[]
+  location             Location[]
+  hotels               Hotel[]
+  reviews              AttractionReview[]
+}
+
+model Location {
+  id           String     @id @default(uuid())
+  latitude     Float
+  longitude    Float
+  attraction   Attraction @relation(fields: [attractionId], references: [id])
+  attractionId String
+}
+
+model PicutreAttraction {
+  id           String     @id @default(uuid())
+  attraction   Attraction @relation(fields: [attractionId], references: [id])
+  attractionId String
+}
+
+model AttractionReview {
+  id           String     @id @default(uuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String     @unique
+  detail       String
+  rating       Float
+  createdAt    DateTime   @default(now())
+  attraction   Attraction @relation(fields: [attractionId], references: [id])
+  attractionId String
+}
+
+model Hotel {
+  id           String     @id @default(uuid())
+  attraction   Attraction @relation(fields: [attractionId], references: [id])
+  attractionId String
+  name         String
+  distance     Float
+  price        Float
+  rating       Float
+  url          String
+  addOns       AddOn[]
+}
+
+model AddOn {
+  id      String @id @default(uuid())
+  type    String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id])
+  hotelId String
+}
+
+model Product {
+  id                String            @id @default(uuid())
+  productCatagory   ProductCatagory   @relation(fields: [productCatagoryId], references: [id])
+  productCatagoryId String
+  name              String
+  price             Float
+  detail            String
+  image             Bytes
+  productReview     ProductReview[]
+  baskets           BasketToProduct[]
+}
+
+model ProductCatagory {
+  id       String    @id @default(uuid())
+  type     String
+  products Product[]
+}
+
+model ProductReview {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  detail    String
+  rating    Float
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Basket {
+  id         String            @id @default(uuid())
+  user       User              @relation(fields: [userId], references: [id])
+  userId     String
+  address    String
+  totalPrice Float
+  payment    Payment?
+  products   BasketToProduct[]
+}
+
+model Payment {
+  id         String  @id @default(uuid())
+  method     String
+  isSuccessd Boolean @default(false)
+  basket     Basket  @relation(fields: [basketId], references: [id])
+  basketId   String  @unique
+}
+
+model BasketToProduct {
+  basket    Basket  @relation(fields: [basketId], references: [id])
+  basketId  String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  @@id([basketId, productId])
 }
