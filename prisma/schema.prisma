@@ -15,9 +15,8 @@ model User {
   firstname       String
   lastname        String
   username        String
-  email           String
   hashPassword    String
-  image           Bytes
+  image           String
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   isLogin         Boolean           @default(false)
@@ -40,21 +39,15 @@ model Attraction {
   detail               String
   address              String
   pictures             PicutreAttraction[]
-  location             Location[]
+  location             Unsupported("point")
   hotels               Hotel[]
   reviews              AttractionReview[]
 }
 
-model Location {
-  id           String     @id @default(uuid())
-  latitude     Float
-  longitude    Float
-  attraction   Attraction @relation(fields: [attractionId], references: [id])
-  attractionId String
-}
 
 model PicutreAttraction {
   id           String     @id @default(uuid())
+  image        String
   attraction   Attraction @relation(fields: [attractionId], references: [id])
   attractionId String
 }
@@ -96,7 +89,7 @@ model Product {
   name              String
   price             Float
   detail            String
-  image             Bytes
+  image             String
   productReview     ProductReview[]
   baskets           BasketToProduct[]
 }

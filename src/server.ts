@@ -13,6 +13,7 @@ app.get("/api", (req:Request,res:Response) => {
     res.send("hello world").status(404)
 })
 
+
 app.listen(port, () => {
     console.log(`server runing on port ${port}`)
 })

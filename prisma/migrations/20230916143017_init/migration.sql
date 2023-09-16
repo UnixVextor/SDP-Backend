@@ -1,33 +1,17 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "firstname" TEXT NOT NULL,
+    "lastname" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "hashPassword" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isLogin" BOOLEAN NOT NULL DEFAULT false,
 
-  - The primary key for the `User` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - You are about to drop the column `name` on the `User` table. All the data in the column will be lost.
-  - Added the required column `email` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `firstname` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `hashPassword` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `image` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `lastname` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `username` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
--- AlterTable
-ALTER TABLE "User" DROP CONSTRAINT "User_pkey",
-DROP COLUMN "name",
-ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "email" TEXT NOT NULL,
-ADD COLUMN     "firstname" TEXT NOT NULL,
-ADD COLUMN     "hashPassword" TEXT NOT NULL,
-ADD COLUMN     "image" BYTEA NOT NULL,
-ADD COLUMN     "isLogin" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "lastname" TEXT NOT NULL,
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL,
-ADD COLUMN     "username" TEXT NOT NULL,
-ALTER COLUMN "id" DROP DEFAULT,
-ALTER COLUMN "id" SET DATA TYPE TEXT,
-ADD CONSTRAINT "User_pkey" PRIMARY KEY ("id");
-DROP SEQUENCE "User_id_seq";
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "AttractionCatagory" (
@@ -44,23 +28,15 @@ CREATE TABLE "Attraction" (
     "name" TEXT NOT NULL,
     "detail" TEXT NOT NULL,
     "address" TEXT NOT NULL,
+    "location" point NOT NULL,
 
     CONSTRAINT "Attraction_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Location" (
-    "id" TEXT NOT NULL,
-    "latitude" DOUBLE PRECISION NOT NULL,
-    "longitude" DOUBLE PRECISION NOT NULL,
-    "attractionId" TEXT NOT NULL,
-
-    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "PicutreAttraction" (
     "id" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "attractionId" TEXT NOT NULL,
 
     CONSTRAINT "PicutreAttraction_pkey" PRIMARY KEY ("id")
@@ -107,7 +83,7 @@ CREATE TABLE "Product" (
     "name" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "detail" TEXT NOT NULL,
-    "image" BYTEA NOT NULL,
+    "image" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
@@ -171,9 +147,6 @@ CREATE UNIQUE INDEX "Payment_basketId_key" ON "Payment"("basketId");
 
 -- AddForeignKey
 ALTER TABLE "Attraction" ADD CONSTRAINT "Attraction_attractionCatagoryId_fkey" FOREIGN KEY ("attractionCatagoryId") REFERENCES "AttractionCatagory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Location" ADD CONSTRAINT "Location_attractionId_fkey" FOREIGN KEY ("attractionId") REFERENCES "Attraction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PicutreAttraction" ADD CONSTRAINT "PicutreAttraction_attractionId_fkey" FOREIGN KEY ("attractionId") REFERENCES "Attraction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
