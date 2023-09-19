@@ -17,6 +17,8 @@ model User {
   username        String
   hashPassword    String
   image           String
+  token           String
+  refreshToken    String
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   isLogin         Boolean           @default(false)
@@ -89,14 +91,22 @@ model Product {
   name              String
   price             Float
   detail            String
-  image             String
+  image             ImagePoduct[]
   productReview     ProductReview[]
   baskets           BasketToProduct[]
+}
+
+model ImagePoduct{
+  id          String @id @default(uuid())
+  image       String 
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   String
 }
 
 model ProductCatagory {
   id       String    @id @default(uuid())
   type     String
+  productViewing Int
   products Product[]
 }
 
