@@ -6,6 +6,7 @@ CREATE TABLE "User" (
     "username" TEXT NOT NULL,
     "hashPassword" TEXT NOT NULL,
     "image" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isLogin" BOOLEAN NOT NULL DEFAULT false,
@@ -83,15 +84,24 @@ CREATE TABLE "Product" (
     "name" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "detail" TEXT NOT NULL,
-    "image" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ImagePoduct" (
+    "id" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+
+    CONSTRAINT "ImagePoduct_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "ProductCatagory" (
     "id" TEXT NOT NULL,
     "type" TEXT NOT NULL,
+    "productViewing" INTEGER NOT NULL,
 
     CONSTRAINT "ProductCatagory_pkey" PRIMARY KEY ("id")
 );
@@ -165,6 +175,9 @@ ALTER TABLE "AddOn" ADD CONSTRAINT "AddOn_hotelId_fkey" FOREIGN KEY ("hotelId") 
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_productCatagoryId_fkey" FOREIGN KEY ("productCatagoryId") REFERENCES "ProductCatagory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ImagePoduct" ADD CONSTRAINT "ImagePoduct_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProductReview" ADD CONSTRAINT "ProductReview_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
