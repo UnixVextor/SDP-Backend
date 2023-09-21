@@ -2,6 +2,7 @@ import cors from 'cors';
 import 'dotenv/config'
 import express, { Application, Request, Response } from 'express';
 import { authRouter } from './routes/authRoute';
+import {userRouter} from './routes/userRoute';
 
 const app:Application = express();
 const port = process.env.PORT
@@ -11,7 +12,7 @@ app.use(express.json());
 
 // all router
 app.use('/', authRouter);
-
+app.use('/', userRouter);
 
 
 // API test
