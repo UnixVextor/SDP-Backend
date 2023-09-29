@@ -7,4 +7,3 @@ export const authRouter =  express.Router();
 authRouter.post('/register', authController.register);
 authRouter.post('/login', authController.login);
 authRouter.get('/logout',verifyJWT,authController.logout);
-

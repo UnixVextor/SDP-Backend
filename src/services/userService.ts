@@ -94,3 +94,37 @@ export const userLogout = async (_id: string) => {
   }
 }
 
+export const updateUser = async (_id:string, _firstname:string, _lastname:string) => {
+  
+  try{
+    const user = await prisma.user.update({
+      where: {
+        id: _id
+      },
+      data:{
+        firstname: _firstname,
+        lastname: _lastname,
+      }
+    })
+    return user;  
+  }catch(err:any){
+    return err.message
+  }
+
+}
+
+export const resetPassword = async (_id:string, newPassword:string) => {
+  try{
+      await prisma.user.update({
+        where:{
+          id: _id
+        },
+        data:{
+          hashPassword: newPassword
+        }
+      })
+  }catch(err:any){
+    return err.message
+  }
+}
+

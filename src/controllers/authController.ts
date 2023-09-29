@@ -54,9 +54,9 @@ export const login = async (req: Request, res: Response) => {
         })
     }
     
-    const decodePassword = bcrypt.compare(password, IsValidateuser.hashPassword)
+    const decodePassword = await bcrypt.compare(password, IsValidateuser.hashPassword)
     if(!decodePassword){
-        res.status(401).json({
+       return res.status(401).json({
           message:  "Password not correct"
         })
     }
@@ -71,10 +71,10 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
     // @ts-ignore
     await userService.userLogout(req.payload.userId)
-     
     res.status(200).json({
         //@ts-ignore
         message: `user: ${req.payload.username} Logout sucesful`
 
     })
 }
+
