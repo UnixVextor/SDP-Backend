@@ -1,12 +1,11 @@
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "firstname" TEXT NOT NULL,
-    "lastname" TEXT NOT NULL,
+    "firstname" TEXT,
+    "lastname" TEXT,
     "username" TEXT NOT NULL,
     "hashPassword" TEXT NOT NULL,
-    "image" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
+    "token" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isLogin" BOOLEAN NOT NULL DEFAULT false,
@@ -27,11 +26,20 @@ CREATE TABLE "Attraction" (
     "id" TEXT NOT NULL,
     "attractionCatagoryId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "detail" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "location" point NOT NULL,
+    "detail" TEXT,
+    "address" TEXT,
 
     CONSTRAINT "Attraction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Location" (
+    "id" TEXT NOT NULL,
+    "latitude" DOUBLE PRECISION,
+    "longitude" DOUBLE PRECISION,
+    "attractionId" TEXT NOT NULL,
+
+    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -47,8 +55,8 @@ CREATE TABLE "PicutreAttraction" (
 CREATE TABLE "AttractionReview" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "detail" TEXT NOT NULL,
-    "rating" DOUBLE PRECISION NOT NULL,
+    "detail" TEXT,
+    "rating" DOUBLE PRECISION,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "attractionId" TEXT NOT NULL,
 
@@ -60,10 +68,10 @@ CREATE TABLE "Hotel" (
     "id" TEXT NOT NULL,
     "attractionId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "distance" DOUBLE PRECISION NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-    "rating" DOUBLE PRECISION NOT NULL,
-    "url" TEXT NOT NULL,
+    "distance" DOUBLE PRECISION,
+    "price" DOUBLE PRECISION,
+    "rating" DOUBLE PRECISION,
+    "url" TEXT,
 
     CONSTRAINT "Hotel_pkey" PRIMARY KEY ("id")
 );
@@ -82,8 +90,9 @@ CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "productCatagoryId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-    "detail" TEXT NOT NULL,
+    "price" TEXT,
+    "detail" TEXT,
+    "pices" TEXT,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
@@ -101,7 +110,7 @@ CREATE TABLE "ImagePoduct" (
 CREATE TABLE "ProductCatagory" (
     "id" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "productViewing" INTEGER NOT NULL,
+    "productViewing" INTEGER,
 
     CONSTRAINT "ProductCatagory_pkey" PRIMARY KEY ("id")
 );
@@ -110,8 +119,8 @@ CREATE TABLE "ProductCatagory" (
 CREATE TABLE "ProductReview" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "detail" TEXT NOT NULL,
-    "rating" DOUBLE PRECISION NOT NULL,
+    "detail" TEXT,
+    "rating" DOUBLE PRECISION,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "productId" TEXT NOT NULL,
 
@@ -122,8 +131,8 @@ CREATE TABLE "ProductReview" (
 CREATE TABLE "Basket" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "totalPrice" DOUBLE PRECISION NOT NULL,
+    "address" TEXT,
+    "totalPrice" DOUBLE PRECISION,
 
     CONSTRAINT "Basket_pkey" PRIMARY KEY ("id")
 );
@@ -147,6 +156,9 @@ CREATE TABLE "BasketToProduct" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Location_attractionId_key" ON "Location"("attractionId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "AttractionReview_userId_key" ON "AttractionReview"("userId");
 
 -- CreateIndex
@@ -157,6 +169,9 @@ CREATE UNIQUE INDEX "Payment_basketId_key" ON "Payment"("basketId");
 
 -- AddForeignKey
 ALTER TABLE "Attraction" ADD CONSTRAINT "Attraction_attractionCatagoryId_fkey" FOREIGN KEY ("attractionCatagoryId") REFERENCES "AttractionCatagory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Location" ADD CONSTRAINT "Location_attractionId_fkey" FOREIGN KEY ("attractionId") REFERENCES "Attraction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PicutreAttraction" ADD CONSTRAINT "PicutreAttraction_attractionId_fkey" FOREIGN KEY ("attractionId") REFERENCES "Attraction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
