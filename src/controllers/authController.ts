@@ -26,7 +26,7 @@ export const register = async (req: Request, res: Response) => {
     
     const newUser = await userService.createUser(firstname, lastname,username, hashPassword);
     res.status(200).json({
-        message: "Register complet",
+        message: "Register complete",
         data: newUser
     })
 }

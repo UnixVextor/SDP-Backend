@@ -55,3 +55,7 @@ npm run dev
 DATABASE_URL="postgresql://root:root@localhost:5432/sdpDb"
 PORT=8000
 ```
+#### 4. open database table
+```bash
+prisma Studio
+```

@@ -28,7 +28,7 @@ model User {
 model AttractionCatagory {
   id          String       @id @default(uuid())
   type        String
-  attractions Attraction[]
+  attractions Attraction[]   
 }
 
 model Attraction {
