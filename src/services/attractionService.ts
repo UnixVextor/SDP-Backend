@@ -50,7 +50,14 @@ export const getAttractionByType = async (_type: string) => {
                 type: _type
             }, 
             select:{
-                attractions:true
+                attractions:{
+                    include:{
+                        hotels:true,
+                        pictures:true,
+                        location:true,
+                        reviews:true
+                    }
+                }
             }
         })
         return attractions

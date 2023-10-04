@@ -1,11 +1,14 @@
 {
   "name": "backend-sdp",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "This is backend of Software development Process",
+  "main": "./dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.ts"
+    "start": "npm run build && node dist/server.js",
+    "build": "tsc",
+    "dev": "nodemon src/server.ts",
+    "test": "jest",
+    "prisma": "prisma"
   },
   "keywords": [],
   "author": "UnixVextor",
