@@ -11,10 +11,22 @@ export const getAllAttraction = async (_type : string) =>  {
                 type : _type
             },
             include: {
-                
-
+                attractions:{
+                    select:{
+                        id: true,
+                        name: true,
+                        detail: true,
+                        address: true,
+                        hotels: true,
+                        pictures:{
+                            select :{
+                                image : true,
+                            }
+                        }
+                    }
             }
-        });
+        }
+    });
 
         return acttraction;
 

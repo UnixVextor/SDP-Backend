@@ -39,9 +39,17 @@ model Attraction {
   detail               String?
   address              String?
   pictures             PicutreAttraction[]
-  location             Unsupported("point")
+  location             Location?
   hotels               Hotel[]
   reviews              AttractionReview[]
+}
+
+model Location{
+  id          String  @id @default(uuid())
+  latitude    Float?
+  longitude   Float?
+  attraction  Attraction @relation(fields: [attractionId], references: [id])
+  attractionId String    @unique
 }
 
 
