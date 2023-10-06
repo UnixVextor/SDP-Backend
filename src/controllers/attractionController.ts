@@ -43,7 +43,7 @@ export const getAttractionByType = async (req: Request, res:Response) => {
 }
 
 export const createAttraction = async (req:Request,res:Response) => {
-    const {catagoryId, name, detail, address, location, hotels} = req.body
+    const {catagoryId, name, detail, address, location} = req.body
     
     if(!(catagoryId && name && detail && req.files && address && location)){
         return res.status(401).json({
@@ -57,9 +57,8 @@ export const createAttraction = async (req:Request,res:Response) => {
     })
 
     const jsonLocation = JSON.parse(location)
-    const jsonHotels = JSON.parse(hotels)
     try {
-        const attraction = await attractionService.createAttraction(catagoryId, name, address,detail,jsonLocation,pictures,jsonHotels)
+        const attraction = await attractionService.createAttraction(catagoryId, name, address,detail,jsonLocation,pictures)
         return res.status(200).json({
             message: "add product succesful",
             product: attraction
@@ -77,9 +76,21 @@ export const addAttractionReview = async (req: Request, res: Response) =>{
             message: "All input required"
         })
     }
-
+    
     //@ts-ignore
     const review = await attractionService.addAttractionReview(req.payload.userId, attractionId,detail,rating)
     res.status(200).json(review)
 }
 
+export const addHotel = async(req: Request, res: Response) => {
+    const {attractionId, name, price, rating, countReview, url} = req.body;
+    if(!(attractionId && name && price && rating && countReview && url)){
+        return res.status(401).json({
+            message: "All input required"
+        })
+    }
+
+    //@ts-ignore
+    const hotel = await attractionService.addHotelByAttractionId(attractionId, name, Number(price),Number(rating),Number(countReview),req.file?.filename,url)
+    res.status(200).json(hotel)
+}

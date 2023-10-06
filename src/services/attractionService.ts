@@ -80,7 +80,7 @@ export const createAttractionCatagory = async (_type:string) => {
 }
 
 
-export const createAttraction = async (_id:string, _name:string, _address:string, _detail:string, _location:any, _pictures:any, _hotels:any) => {
+export const createAttraction = async (_id:string, _name:string, _address:string, _detail:string, _location:any, _pictures:any) => {
 
     try {
         const attraction = await prisma.attraction.create({
@@ -100,9 +100,6 @@ export const createAttraction = async (_id:string, _name:string, _address:string
                 pictures: {
                     create: _pictures
                 },
-                hotels:{
-                    create: _hotels
-                }
             }
         })
         return attraction
@@ -123,7 +120,28 @@ export const addAttractionReview = async (_user_id:string, _attraction_id:string
             }
         })
         return review
-    } catch (error) {
+    } catch (error:any) {
+        console.log(error.message)
         throw error
+    }
+}
+
+export const addHotelByAttractionId =async (_id:string, _name:string, _price:number, _rating:number, _countReview:number, _image:string, _url:string) => {
+    try {
+        const hotel = await prisma.hotel.create({
+            data:{
+                attractionId: _id,
+                name: _name,
+                price: _price,
+                rating: _rating,
+                countReview: _countReview,
+                image: _image,
+                url: _url
+            }
+        })
+        return hotel;
+    } catch (error:any) {
+        console.log(error.message)
+        return error
     }
 }

@@ -10,3 +10,4 @@ attractionRouter.post('/attraction/addcatagory', attractionController.createAttr
 attractionRouter.post('/attraction/catagory', attractionController.getAttractionByType)
 attractionRouter.post('/attraction/addAttraction',upload.array('file', 100),attractionController.createAttraction)
 attractionRouter.post('/attraction/addReview',verifyJWT,attractionController.addAttractionReview)
+attractionRouter.post('/attraction/addHotel', upload.single('file'), attractionController.addHotel)

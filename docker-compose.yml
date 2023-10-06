@@ -10,6 +10,7 @@ services:
 
     volumes:
       - ./data/db:/var/lib/postgresql/data
+      - ./init-db://docker-entrypoint-initdb.d
 
     environment:
       POSTGRES_USER: root
