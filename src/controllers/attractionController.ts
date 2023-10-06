@@ -78,6 +78,14 @@ export const addAttractionReview = async (req: Request, res: Response) =>{
     }
     
     //@ts-ignore
+    const oldreview = await attractionService.getAttractionReviewById(req.payload.userId)
+    if(oldreview){
+        return res.status(401).json({
+            message: "Already have Review"
+        })
+    }
+    
+    //@ts-ignore
     const review = await attractionService.addAttractionReview(req.payload.userId, attractionId,detail,rating)
     res.status(200).json(review)
 }

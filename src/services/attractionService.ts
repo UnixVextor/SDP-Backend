@@ -145,3 +145,16 @@ export const addHotelByAttractionId =async (_id:string, _name:string, _price:num
         return error
     }
 }
+
+export const getAttractionReviewById = async (_id:string)=>{
+    try {
+       const review = await prisma.attractionReview.findUnique({
+        where:{
+            id: _id
+        }
+       })
+       return review
+    } catch (error:any) {
+        throw error
+    }
+}
