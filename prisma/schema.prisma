@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -20,8 +21,8 @@ model User {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   isLogin         Boolean           @default(false)
-  attractinReview AttractionReview?
-  productReview   ProductReview?
+  attractinReview AttractionReview[]
+  productReview   ProductReview[]
   basket          Basket[]
 }
 
@@ -39,9 +40,18 @@ model Attraction {
   detail               String?
   address              String?
   pictures             PicutreAttraction[]
-  location             Unsupported("point")
+  location             Location?
   hotels               Hotel[]
   reviews              AttractionReview[]
+}
+
+
+model Location{
+  id          String  @id @default(uuid())
+  latitude    Float?
+  longitude   Float?
+  attraction  Attraction @relation(fields: [attractionId], references: [id])
+  attractionId String    @unique
 }
 
 
@@ -52,10 +62,11 @@ model PicutreAttraction {
   attractionId String
 }
 
+
 model AttractionReview {
   id           String     @id @default(uuid())
   user         User       @relation(fields: [userId], references: [id])
-  userId       String     @unique
+  userId       String     
   detail       String?
   rating       Float?
   createdAt    DateTime   @default(now())
@@ -68,9 +79,10 @@ model Hotel {
   attraction   Attraction @relation(fields: [attractionId], references: [id])
   attractionId String
   name         String
-  distance     Float?
   price        Float?
   rating       Float?
+  countReview  Int?
+  image        String?
   url          String?
   addOns       AddOn[]
 }
@@ -87,8 +99,9 @@ model Product {
   productCatagory   ProductCatagory   @relation(fields: [productCatagoryId], references: [id])
   productCatagoryId String
   name              String
-  price             Float?
+  price             String?
   detail            String?
+  pices             String?
   image             ImagePoduct[]
   productReview     ProductReview[]
   baskets           BasketToProduct[]
@@ -104,7 +117,7 @@ model ImagePoduct{
 model ProductCatagory {
   id       String    @id @default(uuid())
   type     String
-  productViewing Int
+  productViewing Int?
   products Product[]
 }
 

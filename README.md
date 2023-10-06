@@ -52,6 +52,8 @@ npm run dev
 
 #### .env file
 ```bash
-DATABASE_URL="postgresql://root:root@localhost:5432/sdpDb"
+DATABASE_URL=postgresql://root:root@db:5432/sdpDb
+
 PORT=8000
+ACCESS_TOKEN_SECRET="9bfa611c626259efd6491440db1b97081e5c851a1fca53daff8182b191e0180c322d472113f5e0b71bebbeee83b2378cf346576184e2ee5dbe22d2faab8c08f7"
 ```
